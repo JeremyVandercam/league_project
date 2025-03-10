@@ -1,5 +1,5 @@
 # Data fetching
-request
+requests
 
 # Data manipulation
 pandas
