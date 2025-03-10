@@ -1,0 +1,16 @@
+# Data fetching
+request
+
+# Data manipulation
+pandas
+numpy
+
+# Data visualization
+matplotlib
+seaborn
+
+# App Display
+streamlit
+
+# Jupyter notebook
+ipykernel
