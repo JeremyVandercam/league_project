@@ -14,3 +14,7 @@ streamlit
 
 # Jupyter notebook
 ipykernel
+ipdb
+google-cloud-bigquery
+db-dtypes
+pandas_gbq
