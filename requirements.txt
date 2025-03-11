@@ -15,6 +15,12 @@ streamlit
 # Jupyter notebook
 ipykernel
 ipdb
+
+# Google Bigquery
 google-cloud-bigquery
 db-dtypes
 pandas_gbq
+
+# ML Model
+scikit-learn
+xgboost
