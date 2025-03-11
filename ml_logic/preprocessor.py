@@ -11,7 +11,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     df['side'] = df['side'].map({'Blue': 1, 'Red': 0})
     # Select only the teams rows and exclude players
     df = df.loc[df['position'] == 'team']
-    # Remove irrelevant data
+    # Remove irrelevant data columns
     df = df.select_dtypes(include='number')\
     .reset_index()\
     .drop(columns=[
