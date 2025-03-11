@@ -60,9 +60,9 @@ def upload_data_to_bq(
 
 
 if __name__ == "__main__":
-    data_query_cache_path = Path(LOCAL_DATA_PATH).joinpath("games2.csv")
-    df = get_data_with_cache(query="SELECT * FROM `league-project-lewagon.league_of_legends_dataset.game_data_kaggle` LIMIT 10",cache_path=data_query_cache_path)
+    data_query_cache_path = Path(LOCAL_DATA_PATH).joinpath("data/csv/2025_LoL_esports_match_data.csv")
+    df = get_data_with_cache(query="SELECT * FROM `league-project-lewagon.league_of_legends_dataset.2025_LoL_esports_match_data`",cache_path=data_query_cache_path)
 
-    upload_data_to_bq(data=df,table="test",truncate=True)
+#    upload_data_to_bq(data=df,table="test",truncate=True)
 
     breakpoint()

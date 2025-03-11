@@ -178,3 +178,5 @@ cython_debug/
 
 #API KEY
 api_key/
+
+data/
