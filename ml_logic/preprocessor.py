@@ -87,3 +87,52 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     ])
 
     return df
+
+def expand_df(df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    Expand rows
+    '''
+
+    def set_null_values(row: pd.Series, minute: str) -> pd.Series:
+        # Set null values in columns matching given minute marks
+        row_dict = dict(row)
+
+        row_dict.update({
+            f'goldat{minute}': None,
+            f'xpat{minute}': None,
+            f'csat{minute}': None,
+            f'opp_goldat{minute}': None,
+            f'opp_xpat{minute}': None,
+            f'opp_csat{minute}': None,
+            f'golddiffat{minute}': None,
+            f'xpdiffat{minute}': None,
+            f'csdiffat{minute}': None,
+            f'killsat{minute}': None,
+            f'assistsat{minute}': None,
+            f'deathsat{minute}': None,
+            f'opp_killsat{minute}': None,
+            f'opp_assistsat{minute}': None,
+            f'opp_deathsat{minute}': None
+        })
+
+        updated_row = pd.Series(row_dict)
+        return updated_row
+
+    expanded_rows = []
+
+    for index, row in df.iterrows():
+
+        # Create rows with null values for in game timestamp
+        row1 = set_null_values(row, '25')
+        row2 = set_null_values(row1, '20')
+        row3 = set_null_values(row2, '15')
+
+        # Append created rows to original
+        expanded_rows.append(row3)
+        expanded_rows.append(row2)
+        expanded_rows.append(row1)
+        expanded_rows.append(row)
+
+    expanded_df = pd.DataFrame(expanded_rows).reset_index().drop(columns='index')
+
+    return expanded_df
