@@ -4,9 +4,6 @@ from google.cloud import bigquery
 from params import GCP_PROJECT, BQ_DATASET, LOCAL_DATA_PATH
 from pathlib import Path
 
-
-
-
 def get_data_with_cache(
     query:str,
     cache_path:Path,
@@ -55,14 +52,8 @@ def upload_data_to_bq(
     job = client.load_table_from_dataframe(data, full_table_name, job_config=job_config)
     result = job.result()
 
-
-
-
-
 if __name__ == "__main__":
-    data_query_cache_path = Path(LOCAL_DATA_PATH).joinpath("games2.csv")
-    df = get_data_with_cache(query="SELECT * FROM `league-project-lewagon.league_of_legends_dataset.game_data_kaggle` LIMIT 10",cache_path=data_query_cache_path)
+    data_query_cache_path = Path(LOCAL_DATA_PATH).joinpath("csv/2025_LoL_esports_match_data_from_OraclesElixir.csv")
+    df = get_data_with_cache(query="SELECT * FROM `league-project-lewagon.league_of_legends_dataset.2025_LoL_esports_match_data`", cache_path=data_query_cache_path)
 
-    upload_data_to_bq(data=df,table="test",truncate=True)
-
-    breakpoint()
+    upload_data_to_bq(data=df, table="2025_LoL_esports_match_data", truncate=True)
