@@ -46,7 +46,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         'oceans',
         'chemtechs',
         'hextechs',
-        'dragons (type unknown)',
+        'dragons_type_unknown',
         'elders',
         'opp_elders',
         'heralds',
