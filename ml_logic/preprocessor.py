@@ -92,7 +92,6 @@ def expand_df(df: pd.DataFrame) -> pd.DataFrame:
     '''
     Expand rows
     '''
-
     def set_null_values(row: pd.Series, minute: str) -> pd.Series:
         # Set null values in columns matching given minute marks
         row_dict = dict(row)
