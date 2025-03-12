@@ -129,12 +129,18 @@ def expand_df(df: pd.DataFrame) -> pd.DataFrame:
 
     expanded_rows = []
 
+    df["row_type"] = ""
+
     for index, row in df.iterrows():
         # Create rows with null values for in game timestamp
         row_20 = set_null_values(row, "25")
         row_20.update({"row_type": "20"})
         row_15 = set_null_values(row_20, "20")
+        row_15.update({"row_type": "15"})
         row_10 = set_null_values(row_15, "15")
+        row_10.update({"row_type": "10"})
+        row.update({"row_type": "25"})
+
 
         # Append created rows to original
         expanded_rows.append(row_10)
