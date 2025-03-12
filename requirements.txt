@@ -24,3 +24,4 @@ pandas_gbq
 # ML Model
 scikit-learn
 xgboost
+optuna

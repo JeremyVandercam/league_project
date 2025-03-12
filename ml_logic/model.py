@@ -5,7 +5,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 
-def train_model(X:pd.DataFrame, y:pd.DataFrame) -> tuple[np.array, float]:
+def train_model(X: pd.DataFrame, y: pd.DataFrame) -> tuple[np.array, float]:
 
    # Split data into train and test sets
     X_train, X_test, y_train, y_test = train_test_split(

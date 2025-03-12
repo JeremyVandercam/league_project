@@ -38,7 +38,6 @@ def upload_data_to_bq(
     assert isinstance(data, pd.DataFrame)
     full_table_name = f"{GCP_PROJECT}.{BQ_DATASET}.{table}"
 
-
     client = bigquery.Client()
 
     # Define write mode and schema

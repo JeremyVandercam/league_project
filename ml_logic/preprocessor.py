@@ -9,82 +9,85 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     '''
     # Changing side column to boolean
     df['side'] = df['side'].map({'Blue': 1, 'Red': 0})
+
     # Select only the teams rows and exclude players
     df = df.loc[df['position'] == 'team']
+
     # Remove irrelevant data columns
     df = df.select_dtypes(include='number')\
-    .reset_index()\
-    .drop(columns=[
-        'index',
-        'year',
-        'playoffs',
-        'game',
-        'patch',
-        'participantid',
-        'gamelength',
-        'kills',
-        'deaths',
-        'assists',
-        'teamkills',
-        'teamdeaths',
-        'doublekills',
-        'triplekills',
-        'quadrakills',
-        'pentakills',
-        'firstbloodkill',
-        'firstbloodassist',
-        'firstbloodvictim',
-        'team kpm',
-        'ckpm',
-        'dragons',
-        'opp_dragons',
-        'elementaldrakes',
-        'opp_elementaldrakes',
-        'infernals',
-        'mountains',
-        'clouds',
-        'oceans',
-        'chemtechs',
-        'hextechs',
-        'dragons_type_unknown',
-        'elders',
-        'opp_elders',
-        'heralds',
-        'opp_heralds',
-        'void_grubs',
-        'opp_void_grubs',
-        'barons',
-        'opp_barons',
-        'towers',
-        'opp_towers',
-        'inhibitors',
-        'opp_inhibitors',
-        'damagetochampions',
-        'dpm',
-        'damageshare',
-        'damagetakenperminute',
-        'damagemitigatedperminute',
-        'wardsplaced',
-        'wpm',
-        'wardskilled',
-        'wcpm',
-        'controlwardsbought',
-        'visionscore',
-        'vspm',
-        'totalgold',
-        'earnedgold',
-        'earned gpm',
-        'earnedgoldshare',
-        'goldspent',
-        'gspd',
-        'gpr',
-        'total cs',
-        'minionkills',
-        'monsterkills',
-        'monsterkillsownjungle',
-        'monsterkillsenemyjungle',
-        'cspm'
-    ])
+    .reset_index(drop=True)\
+    .drop(columns=
+        [
+            'year',
+            'playoffs',
+            'game',
+            'patch',
+            'participantid',
+            'gamelength',
+            'kills',
+            'deaths',
+            'assists',
+            'teamkills',
+            'teamdeaths',
+            'doublekills',
+            'triplekills',
+            'quadrakills',
+            'pentakills',
+            'firstbloodkill',
+            'firstbloodassist',
+            'firstbloodvictim',
+            'team kpm',
+            'ckpm',
+            'dragons',
+            'opp_dragons',
+            'elementaldrakes',
+            'opp_elementaldrakes',
+            'infernals',
+            'mountains',
+            'clouds',
+            'oceans',
+            'chemtechs',
+            'hextechs',
+            'dragons_type_unknown',
+            'elders',
+            'opp_elders',
+            'heralds',
+            'opp_heralds',
+            'void_grubs',
+            'opp_void_grubs',
+            'barons',
+            'opp_barons',
+            'towers',
+            'opp_towers',
+            'inhibitors',
+            'opp_inhibitors',
+            'damagetochampions',
+            'dpm',
+            'damageshare',
+            'damagetakenperminute',
+            'damagemitigatedperminute',
+            'wardsplaced',
+            'wpm',
+            'wardskilled',
+            'wcpm',
+            'controlwardsbought',
+            'visionscore',
+            'vspm',
+            'totalgold',
+            'earnedgold',
+            'earned gpm',
+            'earnedgoldshare',
+            'goldspent',
+            'gspd',
+            'gpr',
+            'total cs',
+            'minionkills',
+            'monsterkills',
+            'monsterkillsownjungle',
+            'monsterkillsenemyjungle',
+            'cspm'
+        ]
+    )
 
     return df
 
@@ -122,16 +125,16 @@ def expand_df(df: pd.DataFrame) -> pd.DataFrame:
     for index, row in df.iterrows():
 
         # Create rows with null values for in game timestamp
-        row1 = set_null_values(row, '25')
-        row2 = set_null_values(row1, '20')
-        row3 = set_null_values(row2, '15')
+        row_20 = set_null_values(row, '25')
+        row_15 = set_null_values(row_20, '20')
+        row_10 = set_null_values(row_15, '15')
 
         # Append created rows to original
-        expanded_rows.append(row3)
-        expanded_rows.append(row2)
-        expanded_rows.append(row1)
+        expanded_rows.append(row_10)
+        expanded_rows.append(row_15)
+        expanded_rows.append(row_20)
         expanded_rows.append(row)
 
-    expanded_df = pd.DataFrame(expanded_rows).reset_index().drop(columns='index')
+    expanded_df = pd.DataFrame(expanded_rows).reset_index(drop=True)
 
     return expanded_df
