@@ -6,7 +6,9 @@ from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 
 
-def train_model(X: pd.DataFrame, y: pd.DataFrame) -> tuple[np.array, float]:
+def train_model(
+    X: pd.DataFrame, y: pd.DataFrame
+) -> tuple[np.array, float, pd.DataFrame]:
     # Split data into train and test sets
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.3, random_state=42
@@ -30,7 +32,6 @@ def train_model(X: pd.DataFrame, y: pd.DataFrame) -> tuple[np.array, float]:
     )
 
     y_pred = xgb_cl.predict(X_test)
+    y_pred_proba = xgb_cl.predict_proba(X_test)
 
-    score = roc_auc_score(y_test, y_pred)
-
-    return y_pred, score
+    return y_test, y_pred, y_pred_proba, X_test
