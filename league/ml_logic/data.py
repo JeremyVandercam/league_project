@@ -1,7 +1,7 @@
 import pandas as pd
 
 from google.cloud import bigquery
-from ml_logic.params import GCP_PROJECT, BQ_DATASET, LOCAL_DATA_PATH
+from league.ml_logic.params import GCP_PROJECT, BQ_DATASET, LOCAL_DATA_PATH
 from pathlib import Path
 
 

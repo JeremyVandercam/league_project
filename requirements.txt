@@ -7,7 +7,6 @@ numpy
 
 # Data visualization
 matplotlib
-seaborn
 
 # App Display
 streamlit
