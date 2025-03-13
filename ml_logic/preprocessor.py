@@ -134,12 +134,12 @@ def expand_df(df: pd.DataFrame) -> pd.DataFrame:
     for index, row in df.iterrows():
         # Create rows with null values for in game timestamp
         row_20 = set_null_values(row, "25")
-        row_20.update({"minutes": 20})
+        row_20.update({"minutes": 20.0})
         row_15 = set_null_values(row_20, "20")
-        row_15.update({"minutes": 15})
+        row_15.update({"minutes": 15.0})
         row_10 = set_null_values(row_15, "15")
         row_10.update({"minutes": "10"})
-        row.update({"minutes": 25})
+        row.update({"minutes": 25.0})
 
         # Append created rows to original
         expanded_rows.append(row_10)
