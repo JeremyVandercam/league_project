@@ -8,13 +8,15 @@ from sklearn.metrics import roc_auc_score
 
 from typing import Dict, Any
 
+from ml_logic.registry import save_model
+
 
 class XGBTrainer:
-    def __init__(self, data: pd.DataFrame, target: pd.Series, test_size: float = 0.2):
+    def __init__(self, data: pd.DataFrame, target: pd.Series, test_size: float = 0.2, params={}):
         self.data = data
         self.target = target
         self.test_size = test_size
-        self.best_params: Dict[str, Any] = {}
+        self.best_params: Dict[str, Any] = params
         self.model: xgb.Booster = None
 
     def _split_data(self):
@@ -86,6 +88,9 @@ class XGBTrainer:
         d_val = xgb.DMatrix(X_val, label=y_val)
 
         self.model = xgb.train(self.best_params, d_train)
+        #saving the model
+        save_model(self.model)
+
         return self.model
 
     def predict_proba(self, X: pd.DataFrame) -> np.ndarray:

@@ -25,3 +25,12 @@ pandas_gbq
 scikit-learn
 xgboost
 optuna
+
+# API
+fastapi         # API framework
+pytz            # time zone management
+uvicorn         # web server
+
+# tests
+httpx           # HTTP client
+pytest-asyncio  # asynchronous I/O support for pytest
