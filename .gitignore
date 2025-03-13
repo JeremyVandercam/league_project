@@ -183,3 +183,6 @@ data/
 *.csv
 *.json
 *.ipynb
+
+# Saved Models
+models/
