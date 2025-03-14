@@ -138,7 +138,7 @@ def expand_df(df: pd.DataFrame) -> pd.DataFrame:
         row_15 = set_null_values(row_20, "20")
         row_15.update({"minutes": 15.0})
         row_10 = set_null_values(row_15, "15")
-        row_10.update({"minutes": "10"})
+        row_10.update({"minutes": 10.0})
         row.update({"minutes": 25.0})
 
         # Append created rows to original
