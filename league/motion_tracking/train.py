@@ -1,8 +1,25 @@
 from ultralytics import YOLO
-from league.motion_tracking.params import *
+
+# from league.motion_tracking.params import (
+#   LOCAL_DATA_CLOUD_PATH,
+# COMET_WORKSPACE_NAME,
+# COMET_MODEL_NAME,
+# # # COMET_PROJECT_NAME,
+# NUM_EPOCHS,
+# )
 import os
 import comet_ml
 from comet_ml import API
+
+
+LOCAL_DATA_PATH = os.path.join(os.path.expanduser("~"), ".league_project", "data")
+LOCAL_DATA_CLOUD_PATH = os.path.join("datasets", ".league_project", "data")
+NUM_EPOCHS = int(os.environ["EPOCHS"])
+COMET_API_KEY = os.environ["COMET_API_KEY"]
+COMET_PROJECT_NAME = os.environ["COMET_PROJECT_NAME"]
+COMET_MODEL_NAME = os.environ["COMET_MODEL_NAME"]
+COMET_WORKSPACE_NAME = os.environ["COMET_WORKSPACE_NAME"]
+ROBOFLOW_API_KEY = os.environ["ROBOFLOW_API_KEY"]
 
 
 # Function to train the model
@@ -24,7 +41,7 @@ def train_model(epochs: int = 10, img_size: int = 640):
         latest_production_weights = model_versions[0]
 
         # Preparing local path for weights
-        weights_path = os.path.join(LOCAL_DATA_PATH, "weights")
+        weights_path = os.path.join(LOCAL_DATA_CLOUD_PATH, "weights")
         os.makedirs(weights_path, exist_ok=True)
 
         # Downloading the weights
@@ -46,11 +63,10 @@ def train_model(epochs: int = 10, img_size: int = 640):
         # Initialize a new YOLO model with default weights
         model = YOLO("yolo11s.pt")
         model.train(
-            data=os.path.join(LOCAL_DATA_PATH, "data.yaml"),
+            data=os.path.join(LOCAL_DATA_CLOUD_PATH, "data.yaml"),
             epochs=epochs,
             imgsz=img_size,
             patience=20,
-            device="mps",
         )
 
     # Save the trained model weights to Comet ML

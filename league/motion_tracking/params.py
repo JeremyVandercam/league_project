@@ -1,6 +1,7 @@
 import os
 
 LOCAL_DATA_PATH = os.path.join(os.path.expanduser("~"), ".league_project", "data")
+LOCAL_DATA_CLOUD_PATH = os.path.join("ultralytics", ".league_project", "data")
 NUM_EPOCHS = int(os.environ["EPOCHS"])
 COMET_API_KEY = os.environ["COMET_API_KEY"]
 COMET_PROJECT_NAME = os.environ["COMET_PROJECT_NAME"]
