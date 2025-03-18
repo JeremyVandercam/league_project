@@ -3,6 +3,9 @@ import os
 ####################  VARIABLES  ##################
 GCP_PROJECT = os.environ["GCP_PROJECT"]
 BQ_DATASET = os.environ["BQ_DATASET"]
+GCP_REGION = os.environ.get("GCP_REGION")
+DOCKER_IMAGE = os.environ.get("DOCKER_IMAGE")
+DOCKER_MEMORY = os.environ.get("DOCKER_MEMORY")
 
 
 ##################  CONSTANTS  #####################
