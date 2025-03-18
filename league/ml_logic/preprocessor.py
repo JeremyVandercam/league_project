@@ -12,7 +12,8 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         - Select only team rows and exclude players
         - Remove irrelevant columns
     """
-    df["side"] = df["side"].map({"Blue": 1, "Red": 0})
+    if df["side"].values[0] in ["Blue", "Red"]:
+        df["side"] = df["side"].map({"Blue": 1, "Red": 0})
 
     df = df.loc[df["position"] == "team", DTYPES_DICT.keys()]
 
@@ -75,7 +76,7 @@ def expand_df(df: pd.DataFrame) -> pd.DataFrame:
     return expanded_df
 
 
-def get_api_data(match_id: str, startingTime: str) -> tuple[Match, Match]:
+def get_api_data(match_id: str, startingTime: str) -> tuple[Team, Team]:
     match = Match(match_id=match_id)
     match.get_match_timeline(timestamp=startingTime)
 

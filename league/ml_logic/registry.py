@@ -1,4 +1,3 @@
-import glob
 import os
 import xgboost as xgb
 
@@ -15,7 +14,7 @@ def save_model(model: xgb.Booster) -> str:
     return model_path
 
 
-def load_model():
+def load_model() -> xgb.Booster:
     local_model_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb.model")
 
     if not local_model_path:

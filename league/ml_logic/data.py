@@ -42,4 +42,4 @@ def upload_data_to_bq(data: pd.DataFrame, table: str, truncate: bool):
 
     # Load data
     job = client.load_table_from_dataframe(data, full_table_name, job_config=job_config)
-    result = job.result()
+    job.result()

@@ -76,7 +76,7 @@ class XGBTrainer:
         study = optuna.create_study(direction="maximize")
         study.optimize(self._objective, n_trials=n_trials, timeout=timeout)
         self.best_params = study.best_trial.params
-        return self.best_params
+        self.best_params
 
     def train_model(self):
         """Trains the XGBoost model using the best parameters from optimization."""
@@ -93,7 +93,7 @@ class XGBTrainer:
         # saving the model
         save_model(self.model)
 
-        return self.model
+        self.model
 
     def predict_proba(self, X: pd.DataFrame) -> np.ndarray:
         """Predicts probabilities using the trained XGBoost model."""
