@@ -33,3 +33,8 @@ uvicorn         # web server
 # tests
 httpx           # HTTP client
 pytest-asyncio  # asynchronous I/O support for pytest
+
+# motion tracking
+roboflow
+ultralytics
+comet_ml
