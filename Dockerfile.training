@@ -1,8 +1,8 @@
 FROM ultralytics/ultralytics:latest
-COPY setup.py setup.py
 COPY requirements.txt requirements.txt
+RUN python -m pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
-RUN pip install --upgrade pip
+COPY setup.py setup.py
+COPY league league/
 RUN pip install -e .
-COPY league/motion_tracking league/
-CMD python league/motion_tracking/train.py
+CMD python -m league.motion_tracking.train
