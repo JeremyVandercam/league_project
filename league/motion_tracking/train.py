@@ -1,25 +1,16 @@
 from ultralytics import YOLO
 
-# from league.motion_tracking.params import (
-#   LOCAL_DATA_CLOUD_PATH,
-# COMET_WORKSPACE_NAME,
-# COMET_MODEL_NAME,
-# # # COMET_PROJECT_NAME,
-# NUM_EPOCHS,
-# )
+from league.motion_tracking.params import (
+    LOCAL_DATA_PATH,
+    COMET_WORKSPACE_NAME,
+    COMET_MODEL_NAME,
+    COMET_PROJECT_NAME,
+    NUM_EPOCHS,
+)
 import os
 import comet_ml
 from comet_ml import API
-
-
-LOCAL_DATA_PATH = os.path.join(os.path.expanduser("~"), ".league_project", "data")
-LOCAL_DATA_CLOUD_PATH = os.path.join("datasets", ".league_project", "data")
-NUM_EPOCHS = int(os.environ["EPOCHS"])
-COMET_API_KEY = os.environ["COMET_API_KEY"]
-COMET_PROJECT_NAME = os.environ["COMET_PROJECT_NAME"]
-COMET_MODEL_NAME = os.environ["COMET_MODEL_NAME"]
-COMET_WORKSPACE_NAME = os.environ["COMET_WORKSPACE_NAME"]
-ROBOFLOW_API_KEY = os.environ["ROBOFLOW_API_KEY"]
+from league.motion_tracking.data import load_data
 
 
 # Function to train the model
@@ -41,7 +32,7 @@ def train_model(epochs: int = 10, img_size: int = 640):
         latest_production_weights = model_versions[0]
 
         # Preparing local path for weights
-        weights_path = os.path.join(LOCAL_DATA_CLOUD_PATH, "weights")
+        weights_path = os.path.join(LOCAL_DATA_PATH, "weights")
         os.makedirs(weights_path, exist_ok=True)
 
         # Downloading the weights
@@ -59,15 +50,19 @@ def train_model(epochs: int = 10, img_size: int = 640):
     # If loading pretrained weights fails, initialize a new model
     except Exception as error:
         print(f"❌ Could not load weights: {error}")
+        params = {
+            "data": os.path.join(LOCAL_DATA_PATH, "data.yaml"),
+            "epochs": epochs,
+            "imgsz": img_size,
+            "patience": 20,
+        }
+        device = os.environ.get("DEVICE", "CUDA")
+        if device == "mps":
+            params.update({"device": "mps"})
 
         # Initialize a new YOLO model with default weights
-        model = YOLO("yolo11s.pt")
-        model.train(
-            data=os.path.join(LOCAL_DATA_CLOUD_PATH, "data.yaml"),
-            epochs=epochs,
-            imgsz=img_size,
-            patience=20,
-        )
+        model = YOLO("yolo11m.pt")
+        model.train(**params)
 
     # Save the trained model weights to Comet ML
     experiments = api.get(
@@ -84,12 +79,12 @@ def train_model(epochs: int = 10, img_size: int = 640):
 
     # Sort list of experiments by one of the metrics to find best one
     experiments.sort(
-        key=lambda each_experiment: float(
-            each_experiment.get_metrics_summary("metrics/mAP50(B)")["valueMax"]
+        key=lambda each_experiment: (
+            float(each_experiment.get_metrics_summary("metrics/mAP50(B)")["valueMax"])
+            # If some experiment got stopped without any metric we want to skip it
+            if isinstance(each_experiment.get_metrics_summary("metrics/mAP50(B)"), dict)
+            else 0
         )
-        # If some experiment got stopped without any metric we want to skip it
-        if isinstance(each_experiment.get_metrics_summary("metrics/mAP50(B)"), dict)
-        else 0
     )
 
     # get best experiment
@@ -106,4 +101,5 @@ def train_model(epochs: int = 10, img_size: int = 640):
 
 # Main execution
 if __name__ == "__main__":
+    load_data()
     train_model(epochs=NUM_EPOCHS)

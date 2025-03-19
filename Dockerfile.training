@@ -1,17 +1,8 @@
 FROM ultralytics/ultralytics:latest
-RUN apt-get -y update
-RUN apt-get -y install curl
-COPY league/motion_tracking motion_tracking/
-# COPY setup.py setup.py
-# RUN pip install -e .
 COPY requirements.txt requirements.txt
+RUN python -m pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
-RUN pip install --upgrade pip
-RUN mkdir datasets
-RUN mkdir datasets/.league_project
-RUN mkdir datasets/.league_project/data
-RUN curl -L "https://universe.roboflow.com/ds/RDxt3RbD2C?key=r6GcVCR5m1" > datasets/.league_project/data/roboflow.zip
-RUN unzip datasets/.league_project/data/roboflow.zip -d datasets/.league_project/data/
-RUN apt-get update
-RUN apt-get install vim -y
-CMD python motion_tracking/train.py
+COPY setup.py setup.py
+COPY league league/
+RUN pip install -e .
+CMD python -m league.motion_tracking.train
