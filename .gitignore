@@ -191,3 +191,4 @@ models/
 #Motion tracking
 *.pt
 runs/
+*.zip

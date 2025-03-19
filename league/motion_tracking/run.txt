@@ -5,3 +5,8 @@ docker run --restart unless-stopped --shm-size=8g -d -e COMET_API_KEY=8l1NMGbYW8
 Copy and paste this  vim /root/.config/Ultralytics/settings.json
 on second line press i and then change datasets word to ultralytics
 python motion_tracking/train.py
+
+
+git filter-branch --force --index-filter \
+  "git rm --cached --ignore-unmatch League-of-Legends-Detection-5/roboflow.zip" \
+  --prune-empty --tag-name-filter cat -- --all
