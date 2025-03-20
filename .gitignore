@@ -192,3 +192,4 @@ models/
 *.pt
 runs/
 *.zip
+*.mp4
