@@ -3,13 +3,9 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-import xgboost as xgb
 
 from datetime import datetime, timedelta
 from typing import Dict, Any
-
-from league.ml_logic.preprocessor import expand_df, get_df_from_api_data
-from league.ml_logic.registry import load_model
 
 
 # --- Configuration ---
@@ -64,7 +60,7 @@ class Matches:
         }
 
         response = requests.get(url, headers=headers)
-        print(response.json())
+
         return response.json()
 
     @staticmethod

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import xgboost as xgb
-import optuna
+import optuna  # type: ignore
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score

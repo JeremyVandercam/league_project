@@ -6,7 +6,7 @@ from league.ml_logic.params import LOCAL_REGISTRY_PATH
 
 
 def save_model(model: xgb.Booster) -> str:
-    # Save model locally
+    """Save the model locally"""
     model_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb.model")
 
     print(model_path)
@@ -16,9 +16,9 @@ def save_model(model: xgb.Booster) -> str:
 
 
 def save_params(params: dict) -> str:
+    """Save best the model best parameters"""
     params_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb_params.json")
 
-    # Save the dictionary as a JSON file
     with open(params_path, "w") as json_file:
         json.dump(params, json_file, indent=4)
 

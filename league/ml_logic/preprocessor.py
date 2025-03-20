@@ -1,5 +1,5 @@
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from league.ml_logic.params import DTYPES_DICT
 from league.ml_logic.riot_api import Match, Team

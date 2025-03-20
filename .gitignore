@@ -186,9 +186,6 @@ data/
 *.ipynb
 main.py
 
-# Saved Models
-models/
-
 #Motion tracking
 *.pt
 runs/

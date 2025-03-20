@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 import xgboost as xgb
 
 from league.ml_logic.preprocessor import expand_df, get_df_from_api_data
@@ -22,13 +21,14 @@ app.add_middleware(
 
 @app.post("/predict")
 def predict_proba(request: dict) -> dict:
+    model = app.state.model
+    assert model is not None
+
     predictions = {
         "game_ids": request["game_ids"],
         "start_time": request["startingTime"],
         "predictions": [],
     }
-    model = app.state.model
-    assert model is not None
 
     for id in predictions["game_ids"]:
         data = get_df_from_api_data(id, request["startingTime"])
