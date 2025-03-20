@@ -51,7 +51,7 @@ def apply_transform(frame, model):
                     thickness=10,
                 )
             # Draw an arrow at the end of the line
-            if len(track) >= 2:
+            if len(track) >= 15:
                 # Get the last two points to determine direction
                 p1 = np.array(track[-2])
                 p2 = np.array(track[-1])
@@ -63,7 +63,7 @@ def apply_transform(frame, model):
                     direction = direction / np.linalg.norm(direction)
 
                     # Calculate the arrow points
-                    arrow_size = 20
+                    arrow_size = 7
                     arrow_angle = np.pi / 6  # 30 degrees
 
                     # Calculate the two points that form the arrow
@@ -93,7 +93,7 @@ def apply_transform(frame, model):
                     )
 
                     # Project the movement to the edge of the frame
-                    if len(track) >= 3:
+                    if len(track) >= 15:
                         # Use the last few points to get a better direction estimate
                         p_prev = np.array(track[-3])
                         p_curr = np.array(track[-2])
