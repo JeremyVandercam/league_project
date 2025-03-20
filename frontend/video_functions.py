@@ -1,6 +1,7 @@
 import streamlit as st
 import cv2
 import numpy as np
+from pytubefix import YouTube
 
 
 def apply_transform(frame, model):
@@ -167,6 +168,16 @@ def apply_transform(frame, model):
                                 )
 
     return annotated_frame
+
+
+def download_yt_video(url):
+    st.write("Downloading video...")
+    yt = YouTube(url)
+    video = (
+        yt.streams.filter(file_extension="mp4").order_by("resolution").desc().first()
+    )
+    path = video.download()
+    return path
 
 
 if __name__ == "__main__":
