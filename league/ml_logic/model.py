@@ -8,14 +8,14 @@ from sklearn.metrics import roc_auc_score
 
 from typing import Dict, Any
 
-from league.ml_logic.registry import save_model
+from league.ml_logic.registry import save_model, save_params
 
 
 class XGBTrainer:
     def __init__(
         self, data: pd.DataFrame, target: pd.Series, test_size: float = 0.2, params={}
     ):
-        self.data = data
+        self.data = data.fillna(0)
         self.target = target
         self.test_size = test_size
         self.best_params: Dict[str, Any] = params
@@ -89,9 +89,13 @@ class XGBTrainer:
         d_train = xgb.DMatrix(X_train, label=y_train)
         d_val = xgb.DMatrix(X_val, label=y_val)
 
-        self.model = xgb.train(self.best_params, d_train)
-        # saving the model
+        params = {"objective": "binary:logistic", **self.best_params}
+
+        self.model = xgb.train(params, d_train)
+
+        # Saving the model and best parmameter
         save_model(self.model)
+        save_params(self.best_params)
 
         self.model
 

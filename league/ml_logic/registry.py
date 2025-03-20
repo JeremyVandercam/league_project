@@ -1,3 +1,4 @@
+import json
 import os
 import xgboost as xgb
 
@@ -14,23 +15,33 @@ def save_model(model: xgb.Booster) -> str:
     return model_path
 
 
+def save_params(params: dict) -> str:
+    params_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb_params.json")
+
+    # Save the dictionary as a JSON file
+    with open(params_path, "w") as json_file:
+        json.dump(params, json_file, indent=4)
+
+    print(f"Dictionary saved as {params_path}")
+
+    return params_path
+
+
 def load_model() -> xgb.Booster:
     local_model_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb.model")
+    local_params_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb_params.json")
 
     if not local_model_path:
         return None
+    if not local_params_path:
+        return None
 
-    params = {
-        "booster": "gbtree",
-        "lambda": 0.052732495448724846,
-        "alpha": 4.795726650341036e-08,
-        "max_depth": 9,
-        "min_child_weight": 1,
-        "eta": 0.5888238671975178,
-        "gamma": 2.001633795154716e-05,
-        "subsample": 0.9437634512257028,
-        "colsample_bytree": 0.48419223461881844,
-    }
+    # Read the JSON file and load it into a dictionary
+    with open(local_params_path, "r") as json_file:
+        params = json.load(json_file)
+
+    if not params:
+        return None
 
     latest_model = xgb.Booster(params)
     latest_model.load_model(local_model_path)

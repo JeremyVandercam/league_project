@@ -1,5 +1,5 @@
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from league.ml_logic.params import DTYPES_DICT
 from league.ml_logic.riot_api import Match, Team
@@ -12,8 +12,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         - Select only team rows and exclude players
         - Remove irrelevant columns
     """
-    if df["side"].values[0] in ["Blue", "Red"]:
-        df["side"] = df["side"].map({"Blue": 1, "Red": 0})
+    df["side"] = df["side"].map({"Blue": 1, "Red": 0})
 
     df = df.loc[df["position"] == "team", DTYPES_DICT.keys()]
 
@@ -83,7 +82,7 @@ def get_api_data(match_id: str, startingTime: str) -> tuple[Team, Team]:
     blue = Team(side=1)
     red = Team(side=0)
 
-    start_timestamp = datetime.strptime(startingTime, "%Y-%m-%dT%H:%M:%S.%fZ")
+    start_timestamp = datetime.strptime(startingTime, "%Y-%m-%dT%H:%M:%S.000Z")
 
     for window in match.timeline:
         timestamp = window["rfc460Timestamp"]
@@ -98,15 +97,15 @@ def get_api_data(match_id: str, startingTime: str) -> tuple[Team, Team]:
         blue_team = window.get("blueTeam", {})
         red_team = window.get("redTeam", {})
 
-        if (
-            blue_team.get("totalKills") or red_team.get("totalKills")
-        ) and blue.firstblood not in [0, 1]:
+        if (blue_team.get("totalKills") or red_team.get("totalKills")) and (
+            blue.firstblood == 0 and red.firstblood == 0
+        ):
             blue.add_firstblood(blue_team.get("totalKills"), red_team.get("totalKills"))
             red.add_firstblood(red_team.get("totalKills"), blue_team.get("totalKills"))
 
-        if (
-            blue_team.get("dragons") or red_team.get("dragons")
-        ) and blue.firstdragon not in [0, 1]:
+        if (blue_team.get("dragons") or red_team.get("dragons")) and (
+            blue.firstblood == 0 and red.firstblood == 0
+        ):
             blue.add_firstdragon(
                 len(blue_team.get("dragons")), len(red_team.get("dragons"))
             )
@@ -114,21 +113,21 @@ def get_api_data(match_id: str, startingTime: str) -> tuple[Team, Team]:
                 len(red_team.get("dragons")), len(blue_team.get("dragons"))
             )
 
-        if (
-            blue_team.get("barons") or red_team.get("barons")
-        ) and blue.firstbaron not in [0, 1]:
+        if (blue_team.get("barons") or red_team.get("barons")) and (
+            blue.firstblood == 0 and red.firstblood == 0
+        ):
             blue.add_firstbaron(blue_team.get("barons"), red_team.get("barons"))
             red.add_firstbaron(red_team.get("barons"), blue_team.get("barons"))
 
-        if (
-            blue_team.get("towers") or red_team.get("towers")
-        ) and blue.firsttower not in [0, 1]:
+        if (blue_team.get("towers") or red_team.get("towers")) and (
+            blue.firstblood == 0 and red.firstblood == 0
+        ):
             blue.add_firsttower(blue_team.get("towers"), red_team.get("towers"))
             red.add_firsttower(red_team.get("towers"), blue_team.get("towers"))
 
-        if (
-            blue_team.get("towers") == 3 or red_team.get("towers") == 3
-        ) and blue.firsttothreetowers not in [0, 1]:
+        if (blue_team.get("towers") == 3 or red_team.get("towers") == 3) and (
+            blue.firstblood == 0 and red.firstblood == 0
+        ):
             blue.add_firsttothreetowers(blue_team.get("towers"), red_team.get("towers"))
             red.add_firsttothreetowers(red_team.get("towers"), blue_team.get("towers"))
 

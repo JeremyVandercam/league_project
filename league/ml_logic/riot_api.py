@@ -30,12 +30,13 @@ class Match:
 
         response = requests.get(url=url, headers=headers, params=params)
 
-        self.window = response.json()
+        if response.status_code == 200:
+            self.window = response.json()
 
     def get_match_timeline(self, timestamp: str):
         start_datetime_timestamp = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
 
-        for minute in range(26):
+        for minute in range(50):
             datetime_timestamp = start_datetime_timestamp + timedelta(minutes=minute)
 
             self.get_match_window(
@@ -48,31 +49,31 @@ class Match:
 class Team:
     def __init__(self, side):
         self.side: int = side
-        self.firstblood: float = None
-        self.firstdragon: float = None
-        self.firstbaron: float = None
-        self.firsttower: float = None
-        self.firsttothreetowers: float = None
-        self.goldat10: float = None
-        self.csat10: float = None
-        self.killsat10: float = None
-        self.assistsat10: float = None
-        self.deathsat10: float = None
-        self.goldat15: float = None
-        self.csat15: float = None
-        self.killsat15: float = None
-        self.assistsat15: float = None
-        self.deathsat15: float = None
-        self.goldat20: float = None
-        self.csat20: float = None
-        self.killsat20: float = None
-        self.assistsat20: float = None
-        self.deathsat20: float = None
-        self.goldat25: float = None
-        self.csat25: float = None
-        self.killsat25: float = None
-        self.assistsat25: float = None
-        self.deathsat25: float = None
+        self.firstblood: float = 0
+        self.firstdragon: float = 0
+        self.firstbaron: float = 0
+        self.firsttower: float = 0
+        self.firsttothreetowers: float = 0
+        self.goldat10: float = 0
+        self.csat10: float = 0
+        self.killsat10: float = 0
+        self.assistsat10: float = 0
+        self.deathsat10: float = 0
+        self.goldat15: float = 0
+        self.csat15: float = 0
+        self.killsat15: float = 0
+        self.assistsat15: float = 0
+        self.deathsat15: float = 0
+        self.goldat20: float = 0
+        self.csat20: float = 0
+        self.killsat20: float = 0
+        self.assistsat20: float = 0
+        self.deathsat20: float = 0
+        self.goldat25: float = 0
+        self.csat25: float = 0
+        self.killsat25: float = 0
+        self.assistsat25: float = 0
+        self.deathsat25: float = 0
 
     def add_firstblood(self, firstblood: float, opp_firstblood: float):
         self.firstblood = 1 if firstblood > 0 and opp_firstblood == 0 else 0
@@ -94,51 +95,51 @@ class Team:
         )
 
     def add_gold(self, gold: float, minutes: int):
-        if minutes == 10 and self.goldat10 is None:
+        if minutes == 10 and self.goldat10 == 0:
             self.goldat10 = gold
-        if minutes == 15 and self.goldat15 is None:
+        if minutes == 15 and self.goldat15 == 0:
             self.goldat15 = gold
-        if minutes == 20 and self.goldat20 is None:
+        if minutes == 20 and self.goldat20 == 0:
             self.goldat20 = gold
-        if minutes == 25 and self.goldat25 is None:
+        if minutes == 25 and self.goldat25 == 0:
             self.goldat25 = gold
 
     def add_cs(self, cs: float, minutes: int):
-        if minutes == 10 and self.csat10 is None:
+        if minutes == 10 and self.csat10 == 0:
             self.csat10 = cs
-        if minutes == 15 and self.csat15 is None:
+        if minutes == 15 and self.csat15 == 0:
             self.csat15 = cs
-        if minutes == 20 and self.csat20 is None:
+        if minutes == 20 and self.csat20 == 0:
             self.csat20 = cs
-        if minutes == 25 and self.csat25 is None:
+        if minutes == 25 and self.csat25 == 0:
             self.csat25 = cs
 
     def add_kills(self, kills: float, minutes: int):
-        if minutes == 10 and self.killsat10 is None:
+        if minutes == 10 and self.killsat10 == 0:
             self.killsat10 = kills
-        if minutes == 15 and self.killsat15 is None:
+        if minutes == 15 and self.killsat15 == 0:
             self.killsat15 = kills
-        if minutes == 20 and self.killsat20 is None:
+        if minutes == 20 and self.killsat20 == 0:
             self.killsat20 = kills
-        if minutes == 25 and self.killsat25 is None:
+        if minutes == 25 and self.killsat25 == 0:
             self.killsat25 = kills
 
     def add_assists(self, assists: float, minutes: int):
-        if minutes == 10 and self.assistsat10 is None:
+        if minutes == 10 and self.assistsat10 == 0:
             self.assistsat10 = assists
-        if minutes == 15 and self.assistsat15 is None:
+        if minutes == 15 and self.assistsat15 == 0:
             self.assistsat15 = assists
-        if minutes == 20 and self.assistsat20 is None:
+        if minutes == 20 and self.assistsat20 == 0:
             self.assistsat20 = assists
-        if minutes == 25 and self.assistsat25 is None:
+        if minutes == 25 and self.assistsat25 == 0:
             self.assistsat25 = assists
 
     def add_deaths(self, deaths: float, minutes: int):
-        if minutes == 10 and self.deathsat10 is None:
+        if minutes == 10 and self.deathsat10 == 0:
             self.deathsat10 = deaths
-        if minutes == 15 and self.deathsat15 is None:
+        if minutes == 15 and self.deathsat15 == 0:
             self.deathsat15 = deaths
-        if minutes == 20 and self.deathsat20 is None:
+        if minutes == 20 and self.deathsat20 == 0:
             self.deathsat20 = deaths
-        if minutes == 25 and self.deathsat25 is None:
+        if minutes == 25 and self.deathsat25 == 0:
             self.deathsat25 = deaths
