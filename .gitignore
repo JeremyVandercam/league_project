@@ -184,7 +184,7 @@ data/
 *.csv
 *.json
 *.ipynb
-
+models/
 #Motion tracking
 runs/
 *.zip
