@@ -22,7 +22,7 @@ def save_params(params: dict) -> str:
     with open(params_path, "w") as json_file:
         json.dump(params, json_file, indent=4)
 
-    print(f"Dictionary saved as {params_path}")
+    print(f"Best params saved as {params_path}")
 
     return params_path
 

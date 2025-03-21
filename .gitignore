@@ -186,6 +186,7 @@ data/
 *.ipynb
 main.py
 newtime.txt
+
 #Motion tracking
 *.pt
 runs/
