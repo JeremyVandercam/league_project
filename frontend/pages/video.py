@@ -9,7 +9,7 @@ MAX_INVISIBLE_FRAMES = 30
 PROJECTION_LENGTH = 200
 BASE_PATH = "/Users/maximiliangust/code/JeremyVandercam/league_project"
 NOTEBOOKS_PATH = f"{BASE_PATH}/notebooks"
-MODEL_PATH = "frontend/pages/best.pt"
+MODEL_PATH = "frontend/best.pt"
 
 # Initialize session state variables for tracking
 if "track_history" not in st.session_state:
