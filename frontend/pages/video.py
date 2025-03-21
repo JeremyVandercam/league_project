@@ -2,7 +2,6 @@ import streamlit as st
 import cv2
 from PIL import Image
 from collections import defaultdict
-
 from ultralytics import YOLO
 from video_functions import apply_transform, download_yt_video
 
