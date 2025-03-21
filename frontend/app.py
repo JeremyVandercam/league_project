@@ -289,7 +289,7 @@ match_id = query_params.get("match_id", None)
 if "match_id" in query_params:
     start_time = datetime.fromisoformat(query_params.get("start_time", None))
 
-    url = "http://127.0.0.1:8000/predict"
+    url = "https://leagueproject-284519494207.europe-west1.run.app/predict"
     payload = {
         "game_ids": game_ids,
         "startingTime": start_time.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
