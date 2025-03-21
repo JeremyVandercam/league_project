@@ -41,3 +41,4 @@ ultralytics
 comet_ml
 pytubefix
 opencv-python
+lap
