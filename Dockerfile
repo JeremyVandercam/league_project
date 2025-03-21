@@ -8,5 +8,6 @@ COPY setup.py setup.py
 RUN pip install .
 
 COPY models/xgb.model root/.league_project/models/xgb.model
+COPY models/xgb_params.json root/.league_project/models/xgb_params.json
 
 CMD uvicorn league.api.fast:app --port=$PORT --host=0.0.0.0
