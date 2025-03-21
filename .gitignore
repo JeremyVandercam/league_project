@@ -186,7 +186,6 @@ data/
 *.ipynb
 
 #Motion tracking
-*.pt
 runs/
 *.zip
 *.mp4
