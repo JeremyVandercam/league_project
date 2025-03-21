@@ -40,7 +40,7 @@ roboflow
 ultralytics
 comet_ml
 pytubefix
-opencv-python
+opencv-python-headless
 lap
 
 numpy
