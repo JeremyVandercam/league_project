@@ -32,6 +32,7 @@ def predict_proba(request: dict) -> dict:
 
     for id in predictions["game_ids"]:
         data = get_df_from_api_data(id, request["startingTime"])
+
         data = expand_df(data)
 
         X = data.drop(columns=["minutes"])

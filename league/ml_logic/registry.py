@@ -16,7 +16,7 @@ def save_model(model: xgb.Booster) -> str:
 
 
 def save_params(params: dict) -> str:
-    """Save best the model best parameters"""
+    """Save the model best parameters locally"""
     params_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb_params.json")
 
     with open(params_path, "w") as json_file:
@@ -28,6 +28,7 @@ def save_params(params: dict) -> str:
 
 
 def load_model() -> xgb.Booster:
+    """Load model best and best parameters locally"""
     local_model_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb.model")
     local_params_path = os.path.join(LOCAL_REGISTRY_PATH, "xgb_params.json")
 

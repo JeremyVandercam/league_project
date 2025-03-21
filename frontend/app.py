@@ -287,16 +287,15 @@ match_id = query_params.get("match_id", None)
 
 # Check if we're viewing a specific match detail
 if "match_id" in query_params:
-    start_time = query_params.get("start_time", None)
-    start_time = datetime.fromisoformat(start_time)
+    start_time = datetime.fromisoformat(query_params.get("start_time", None))
 
-    response = requests.post(
-        url="http://127.0.0.1:8000/predict",
-        json={
-            "game_ids": game_ids,
-            "startingTime": start_time.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-        },
-    )
+    url = "http://127.0.0.1:8000/predict"
+    payload = {
+        "game_ids": game_ids,
+        "startingTime": start_time.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+    }
+
+    response = requests.post(url=url, json=payload)
 
     predictions = (
         response.json()
@@ -346,6 +345,7 @@ if "match_id" in query_params:
                 )
 
                 if predictions:
+                    # breakpoint()
                     for idx in range(len(predictions["predictions"])):
                         preds = pd.DataFrame(
                             {

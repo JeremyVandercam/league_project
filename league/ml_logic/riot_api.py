@@ -7,6 +7,29 @@ class Match:
         self.match_id = match_id
         self.window: dict = {}
         self.timeline: list = []
+        self.start_datetime_timestamp = None
+
+    def get_match_timestamp(self, timestamp: str):
+        # Riot API Match endpoint
+        url = f"https://europe.api.riotgames.com/lol/match/v5/matches/{self.match_id}"
+
+        # Headers with API key
+        headers = {"X-Riot-Token": "RGAPI-508b0cb4-977d-480d-82bc-a0b095067cb6"}
+
+        # Make the request
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            match_data = response.json()
+
+            self.start_datetime_timestamp = match_data.get("info", {}).get(
+                "gameStartTimestamp", None
+            )
+        else:
+            print(f"Error {response.status_code}: {response.text}")
+            self.start_datetime_timestamp = datetime.strptime(
+                timestamp, "%Y-%m-%dT%H:%M:%S.000Z"
+            )
 
     def get_match_window(self, timestamp: str):
         url = f"https://feed.lolesports.com/livestats/v1/window/{self.match_id}"
@@ -34,10 +57,13 @@ class Match:
             self.window = response.json()
 
     def get_match_timeline(self, timestamp: str):
-        start_datetime_timestamp = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+        if not self.start_datetime_timestamp:
+            self.get_match_timestamp(timestamp)
 
-        for minute in range(50):
-            datetime_timestamp = start_datetime_timestamp + timedelta(minutes=minute)
+        for minute in range(26):
+            datetime_timestamp = self.start_datetime_timestamp + timedelta(
+                minutes=minute
+            )
 
             self.get_match_window(
                 timestamp=datetime_timestamp.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
